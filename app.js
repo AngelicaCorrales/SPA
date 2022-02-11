@@ -8,9 +8,9 @@ const routes={
 const router= async()=>{
     const content=null || document.getElementById('page_container');
 
-    let request=Utils.parseRequesrURL();
+    let request=Utils.parseRequesrURL()
 
-    let parseURL=(reuest.resource?'/'+request.resource:'/')+(request.id?'/:id':'')+(request.verb?'/'+request.verb:'');
+    let parseURL=(request.resource?'/'+request.resource:'/')+(request.id?'/:id':'')+(request.verb?'/'+request.verb:'')
 
     let page= routes[parseURL]? routes[parseURL]:Error404
     content.innerHTML=await page.render();
