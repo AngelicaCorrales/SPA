@@ -6,6 +6,13 @@ let About={
         </section>
         `
         return view
+    },
+    after_render: async() =>{
+        document.getElementById("myBtn").addEventListener("click", () =>{
+            console.log('Yo')
+            alert('Yo')
+        })
     }
 }
+
 export default About;
