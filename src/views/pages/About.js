@@ -3,6 +3,7 @@ let About={
         let view=/*html*/`
         <section class="section>
             <h1> about</h1>
+            <button id="myBtn">Button</button>
         </section>
         `
         return view
