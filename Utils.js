@@ -1,12 +1,12 @@
 parseRequestURL:()=>{
-    let url=locatiion.hash.slice(1).toLowerCase() || '/';
+    let url=location.hash.slice(1).toLowerCase() || '/';
     let r= url.split("/");
-    let requets={
+    let request={
         resource:null,
         id:null,
         verb:null
     }
-    requets.resource=r[1]
+    request.resource=r[1]
     request.id=r[2]
     request.verb=r[3]
 
