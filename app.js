@@ -154,4 +154,263 @@ let Bottombar = {
 
 }
 
+let Register = {
+
+    render: async () => {
+        return /*html*/ `
+            <section class="section">
+                <div class="field">
+                    <p class="control has-icons-left has-icons-right">
+                        <input class="input" id="email_input" type="email" placeholder="Enter your Email">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <span class="icon is-small is-right">
+                            <i class="fas fa-check"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <input class="input" id="pass_input" type="password" placeholder="Enter a Password">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <input class="input" id="repeat_pass_input" type="password" placeholder="Enter the same Password again">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <p class="control">
+                        <button class="button is-primary" id="register_submit_btn">
+                        Register
+                        </button>
+                    </p>
+                </div>
+
+            </section>
+        `
+    }
+    // All the code related to DOM interactions and controls go in here.
+    // This is a separate call as these can be registered only after the DOM has been painted
+    , after_render: async () => {
+        document.getElementById("register_submit_btn").addEventListener ("click",  () => {
+            let email       = document.getElementById("email_input");
+            let pass        = document.getElementById("pass_input");
+            let repeatPass  = document.getElementById("repeat_pass_input");
+            if (pass.value != repeatPass.value) {
+                alert (`The passwords dont match`)
+            } else if (email.value =='' | pass.value == '' | repeatPass == '') {
+                alert (`The fields cannot be empty`)
+            } 
+            else {
+                alert(`User with email ${email.value} was successfully submitted!`)
+            }    
+        })
+    }
+}
+
+// --------------------------------
+//  Define Data Sources
+// --------------------------------
+
+let getPostsList = async () => {
+    const options = {
+       method: 'GET',
+       headers: {
+           'Content-Type': 'application/json'
+       }
+   };
+   try {
+       const response = await fetch(`https://5bb634f6695f8d001496c082.mockapi.io/api/posts`, options)
+       const json = await response.json();
+       // console.log(json)
+       return json
+   } catch (err) {
+       console.log('Error getting documents', err)
+   }
+}
+
+let Error404 = {
+
+    render : async () => {
+        let view =  /*html*/`
+            <section class="section">
+                <h1> 404 Error </h1>
+            </section>
+        `
+        return view
+    }
+    , after_render: async () => {
+    }
+}
+
+let Login = {
+
+    render: async () => {
+        return /*html*/ `
+            <section class="section">
+                <div class="field">
+                    <p class="control has-icons-left has-icons-right">
+                        <input class="input" id="email_input" type="email" placeholder="Enter your Email">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <span class="icon is-small is-right">
+                            <i class="fas fa-check"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <input class="input" id="pass_input" type="password" placeholder="Enter a Password">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </p>
+                </div>
+                <a href="Index.html#/register">
+                    <strong>Don't have an account yet?</strong><br>
+                </a>
+                <div class="field">
+                    <p class="control">
+                        <a class="button is-primary" id="login_submit_btn">
+                            <strong>Log in</strong>
+                        </a>
+                    </p>
+                </div>
+
+            </section>
+        `
+    }
+    // All the code related to DOM interactions and controls go in here.
+    // This is a separate call as these can be registered only after the DOM has been painted
+    , after_render: async () => {
+        document.getElementById("login_submit_btn").addEventListener ("click",  () => {
+            let email       = document.getElementById("email_input");
+            let pass        = document.getElementById("pass_input");
+            if (email.value =='' | pass.value == '') {
+                alert (`The fields cannot be empty`)
+            } 
+            else {
+                window.location.href = "index.html#/";
+                logged=true;
+            }    
+        })
+    }
+    
+}
+
+let getPost = async (id) => {
+    const options = {
+       method: 'GET',
+       headers: {
+           'Content-Type': 'application/json'
+       }
+   };
+   try {
+       const response = await fetch(`https://5bb634f6695f8d001496c082.mockapi.io/api/posts/` + id, options)
+       const json = await response.json();
+       // console.log(json)
+       return json
+   } catch (err) {
+       console.log('Error getting documents', err)
+   }
+}
+
+let EditForm = {
+    render : async () => {
+        let view =  /*html*/`
+        <form method="post" asp-page="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="User.UserName" class="control-label">Post Id: </label>
+            <input asp-for="User.UserName" class="form-control" /><br>
+            <span asp-validation-for="User.UserName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="User.Password" class="control-label">Post title:</label>
+            <input type="password" asp-for="User.Password" class="form-control" /><br>
+            <span asp-validation-for="User.Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="User.ConfirmPwd" class="control-label">Post content:</label>
+            <input asp-for="User.ConfirmPwd" type="password" class="form-control" /><br>
+            <span asp-validation-for="User.ConfirmPwd" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="User.ConfirmPwd" class="control-label">Post author:</label>
+            <input asp-for="User.ConfirmPwd" type="password" class="form-control" /><br>
+            <span asp-validation-for="User.ConfirmPwd" class="text-danger"></span>
+        </div>
+        <div>
+            <br> <input type="submit" value="Update" class="button is-primary"/>
+        </div>
+        </form>
+        `
+        return view
+    }
+    , after_render: async () => {
+    }
+}
+
+let PostShow = {
+
+    render : async () => {
+        let request = Utils.parseRequestURL()
+        let post = await getPost(request.id)
+        
+        return /*html*/`
+            <section class="section">
+                <h1> Post Id : ${post.id}</h1>
+                <p> Post Title : ${post.title} </p>
+                <p> Post Content : ${post.content} </p>
+                <p> Post Author : ${post.name} </p>
+                <a class="button is-primary" id="btn_edit">
+                    <strong>Edit</strong>
+                </a>
+            </section>
+        `
+    }
+    , after_render: async () => {
+        var btn_edit_form= document.getElementById("btn_edit");
+        btn_edit_form.onclick= function(){
+            if(logged){
+                window.location.href = "index.html#/editform";
+            }else{
+                alert(`You must be logged`)
+            }
+        }
+    }
+}
+
+let About = {
+    render : async () => {
+        let view =  /*html*/`
+            <section class="section">
+                <h1> About </h1>
+            </section>
+        `
+        return view
+    },
+    after_render: async () => {}
+        
+}
+
+// List of supported routes. Any url other than these routes will throw a 404 error
+const routes = {
+    '/'             : Home
+    , '/about'      : About
+    , '/p/:id'      : PostShow
+    , '/register'   : Register
+    , '/editform'   : EditForm
+    , '/login'      : Login
+};
+
 
